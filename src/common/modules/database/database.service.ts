@@ -10,6 +10,8 @@ import { Course } from 'src/v1/courses/courses.entity';
 import { Category } from 'src/v1/categories/categories.entity';
 import { Comment } from 'src/v1/comments/comments.entity';
 import { Like } from 'src/v1/likes/likes.entity';
+import { Blog } from 'src/v1/blogs/blogs.entity';
+import { File } from 'src/v1/files/files.entity';
 
 export class DatabaseService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -31,6 +33,8 @@ export class DatabaseService implements TypeOrmOptionsFactory {
         Category,
         Comment,
         Like,
+        Blog,
+        File,
       ],
     };
   }

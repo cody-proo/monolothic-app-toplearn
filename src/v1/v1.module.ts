@@ -9,6 +9,8 @@ import { CoursesModule } from './courses/courses.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CommentsModule } from './comments/comments.module';
 import { LikesModule } from './likes/likes.module';
+import { BlogsModule } from './blogs/blogs.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { LikesModule } from './likes/likes.module';
     CategoriesModule,
     CommentsModule,
     LikesModule,
+    BlogsModule,
+    FilesModule,
   ],
 })
 export class V1Module {}
