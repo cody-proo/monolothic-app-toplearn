@@ -1,0 +1,17 @@
+version: '3.8'
+services: 
+  db:
+    restart: on-failure
+    image: postgres:latest
+    container_name: postgresDb
+    ports:
+      - "5555:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=toplearn
+      - POSTGRES_PASS=postgres
+    networks:
+      - toplearn_network
+
+networks:
+  toplearn_network: {}
