@@ -6,6 +6,10 @@ import { Role } from 'src/v1/roles/roles.entity';
 import { User } from 'src/v1/users/users.entity';
 import { Inject } from '@nestjs/common';
 import { processConfig } from 'src/common/envs/envs';
+import { Course } from 'src/v1/courses/courses.entity';
+import { Category } from 'src/v1/categories/categories.entity';
+import { Comment } from 'src/v1/comments/comments.entity';
+import { Like } from 'src/v1/likes/likes.entity';
 
 export class DatabaseService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -18,7 +22,16 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       port: +this.configService.getOrThrow<string>(processConfig.dbPort),
       database: this.configService.getOrThrow<string>(processConfig.dbName),
       type: this.configService.getOrThrow<string>(processConfig.dbType) as any,
-      entities: [RefreshToken, User, Role, Permission],
+      entities: [
+        RefreshToken,
+        User,
+        Role,
+        Permission,
+        Course,
+        Category,
+        Comment,
+        Like,
+      ],
     };
   }
 }
