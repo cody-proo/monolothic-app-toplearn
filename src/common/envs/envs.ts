@@ -7,4 +7,5 @@ export const processConfig = {
   dbName: 'DB_NAME',
   dbType: 'DB_PASS',
   secret: 'SECRET',
+  tokenExp: 'TOKEN_EXP',
 };

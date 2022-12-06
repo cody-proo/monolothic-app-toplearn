@@ -27,5 +27,6 @@ import { FilesModule } from './files/files.module';
     BlogsModule,
     FilesModule,
   ],
+  providers: [],
 })
 export class V1Module {}
