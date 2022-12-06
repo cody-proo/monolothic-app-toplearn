@@ -3,14 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { Category } from './categories.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './dtos';
 import { Not } from 'typeorm';
+import { CategoriesRepository } from './categories.repository';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private readonly genericRepo: GenericRepository<Category>) {}
+  constructor(private readonly genericRepo: CategoriesRepository) {}
 
   async create(data: CreateCategoryDTO) {
     const titleOrSlugTakeBefore = await this.genericRepo.select([
@@ -73,5 +73,9 @@ export class CategoriesService {
       throw new NotFoundException('category not found');
     }
     return category;
+  }
+
+  selectByIds(ids: number[]) {
+    return this.genericRepo.selectByIds(ids);
   }
 }

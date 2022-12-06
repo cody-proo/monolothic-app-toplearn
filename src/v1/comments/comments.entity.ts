@@ -7,6 +7,7 @@ import {
   TreeChildren,
   TreeParent,
 } from 'typeorm';
+import { Course } from '../courses/courses.entity';
 import { User } from '../users/users.entity';
 
 @Tree('materialized-path')
@@ -17,6 +18,9 @@ export class Comment extends CoreEntity {
 
   @ManyToOne(() => User, (user) => user.id)
   author: User;
+
+  @ManyToOne(() => Course, (course) => course.id)
+  course: Course;
 
   @TreeParent()
   parentComment: Comment;
