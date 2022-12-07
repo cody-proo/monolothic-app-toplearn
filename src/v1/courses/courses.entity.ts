@@ -6,15 +6,24 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { Category } from '../categories/categories.entity';
 import { Comment } from '../comments/comments.entity';
+import { File } from '../files/files.entity';
 import { Like } from '../likes/likes.entity';
 import { User } from '../users/users.entity';
 
 export enum CourseStatus {
   ACTIVE = 'ACTIVE',
-  DEACTIVE = 'DEACTIVE',
+  FINISH = 'FINISH',
+  STOP = 'STOP',
+}
+
+export enum CourseLevel {
+  BEGINNER = 'BEGINNER',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCE = 'ADVANCE',
 }
 
 @Entity({ name: '_courses' })
@@ -25,14 +34,18 @@ export class Course extends CoreEntity {
   @Column('text', { nullable: false, name: 'description' })
   description: string;
 
-  @Column('text', { nullable: false, name: 'image', unique: true })
-  image: string;
+  @OneToOne(() => File)
+  @JoinColumn()
+  image: File;
 
   @Column('decimal', { name: 'price', nullable: false })
   price: number;
 
   @Column('varchar', { name: 'status', nullable: false })
   status: CourseStatus;
+
+  @Column('varchar', { name: 'level', nullable: false })
+  level: CourseLevel;
 
   @ManyToOne(() => User, (user) => user.id)
   teacher: User;

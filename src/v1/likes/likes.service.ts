@@ -1,6 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
-import { Course } from '../courses/courses.entity';
 import { CoursesService } from '../courses/courses.service';
 import { User } from '../users/users.entity';
 import { Like } from './likes.entity';
@@ -12,11 +15,18 @@ export class LikesService {
     private readonly coursesService: CoursesService,
   ) {}
 
-  async create(user: number, course: number) {
+  async create(user: number | User, course: number) {
     const courseEntity = await this.coursesService.selectById(course);
     const like = await this.genericRepo.select({
-      user: { id: user },
+      user: { id: user as number },
       course: { id: courseEntity.id },
+    });
+    if (like) {
+      throw new BadRequestException('you liked before');
+    }
+    return this.genericRepo.create({
+      course: courseEntity,
+      user: user as User,
     });
   }
 
