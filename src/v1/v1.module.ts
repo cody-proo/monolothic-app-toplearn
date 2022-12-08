@@ -11,6 +11,7 @@ import { CommentsModule } from './comments/comments.module';
 import { LikesModule } from './likes/likes.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { FilesModule } from './files/files.module';
+import { CourseController } from './course/course.controller';
 
 @Module({
   imports: [
@@ -28,5 +29,6 @@ import { FilesModule } from './files/files.module';
     FilesModule,
   ],
   providers: [],
+  controllers: [CourseController],
 })
 export class V1Module {}

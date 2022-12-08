@@ -83,7 +83,13 @@ export class CoursesService {
     return this.genericRepo.update({ id: course.id }, data as any);
   }
 
-  async delete() {}
+  async delete(id: number, teacher: User) {
+    const course = await this.selectById(id);
+    return this.genericRepo.delete({
+      id: course.id,
+      teacher: { id: teacher.id },
+    });
+  }
 
   selectAll() {
     return this.genericRepo.selectAll();
