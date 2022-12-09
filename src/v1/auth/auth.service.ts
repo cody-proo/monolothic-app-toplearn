@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { GenericRepository } from 'src/common/repositories/generic.repository';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from '../users/users.entity';
 import {
   ForgetPasswordDTO,
@@ -16,11 +10,12 @@ import * as bcrypt from 'bcryptjs';
 import { TokenService } from 'src/common/services/token.service';
 import { hashPassword } from './helper/hash-password.helper';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-  @Inject(GenericRepository<User>)
-  private readonly userRepo: GenericRepository<User>;
+  @Inject(UsersService)
+  private readonly usersService: UsersService;
 
   @Inject(TokenService)
   private readonly tokenService: TokenService;
@@ -29,30 +24,15 @@ export class AuthService {
   private readonly refreshTokenService: RefreshTokenService;
 
   async signup(data: SignupDTO) {
-    const user = this.userRepo.select([
-      { username: data.username },
-      { email: data.email },
-    ]);
-
-    if (user) {
-      throw new BadRequestException('user exist before');
-    }
-    const passwordHashing = await hashPassword(data.password);
-    const newUser = await this.userRepo.create({
-      ...data,
-      password: passwordHashing,
-    });
-    const token = this.tokenService.generateToken({ id: newUser.id });
+    const user = await this.usersService.create(data);
+    const token = this.tokenService.generateToken({ id: user.id });
     const refreshToken = this.tokenService.generateRefreshToken();
-    await this.refreshTokenService.create(refreshToken, newUser);
+    await this.refreshTokenService.create(refreshToken, user);
     return { token, refreshToken };
   }
 
   async login(data: LoginDTO) {
-    const user = await this.userRepo.select({ email: data.email });
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
+    const user = await this.usersService.selectByEmail(data.email);
     const passwordMatching = await bcrypt.compare(data.password, user.password);
     if (!passwordMatching) {
       throw new BadRequestException(
@@ -66,15 +46,9 @@ export class AuthService {
   }
 
   async forgetPassword(data: ForgetPasswordDTO) {
-    const user = await this.userRepo.select({ email: data.email });
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
+    const user = await this.usersService.selectByEmail(data.email);
     const newPasswordHashing = await hashPassword(data.newPassword);
-    await this.userRepo.update(
-      { id: user.id },
-      { password: newPasswordHashing },
-    );
+    await this.usersService.update(user.id, { password: newPasswordHashing });
     return { message: 'your password updated, login again ...' };
   }
 
