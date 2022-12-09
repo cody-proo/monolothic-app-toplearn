@@ -9,6 +9,7 @@ import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { hashPassword } from '../auth/helper/hash-password.helper';
 import { ICreateUser } from './types';
 import { User, UserStatus } from './users.entity';
+import { UpdateUserDTO } from './dtos';
 
 @Injectable()
 export class UsersService {
@@ -46,7 +47,19 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, data: QueryDeepPartialEntity<User>) {
+  async update(id: number, data: UpdateUserDTO) {
+    if (
+      data.username &&
+      (await this.userRepo.select({
+        username: data.username,
+      }))
+    ) {
+      throw new BadRequestException('user exist before by username');
+    }
+
+    if (data.email && (await this.userRepo.select({ email: data.email }))) {
+      throw new BadRequestException('user exist before by email');
+    }
     const user = await this.selectById(id);
     return this.userRepo.update(
       { id: user.id, status: UserStatus.ACTIVE },

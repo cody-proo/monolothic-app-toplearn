@@ -12,38 +12,43 @@ export class UpdateUserDTO {
   @IsOptional()
   @IsString()
   @MinLength(3)
-  username: string;
+  username?: string;
 
   @IsOptional()
   @IsEmail()
   @IsString()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsString()
-  image: string;
+  @MinLength(8)
+  password?: string;
 
   @IsOptional()
   @IsString()
-  bio: string;
+  image?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
 
   @IsOptional()
   @IsString()
   @IsMobilePhone('fa-IR')
-  phone: string;
+  phone?: string;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
-  firstName: string;
+  firstName?: string;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
-  lastName: string;
+  lastName?: string;
 
   @IsOptional()
   @IsString()
   @IsEnum(UserStatus)
-  status: UserStatus;
+  status?: UserStatus;
 }
