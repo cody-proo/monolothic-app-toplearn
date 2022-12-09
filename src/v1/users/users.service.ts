@@ -61,4 +61,8 @@ export class UsersService {
     }
     return user;
   }
+
+  selectAll() {
+    return this.userRepo.selectAll();
+  }
 }
