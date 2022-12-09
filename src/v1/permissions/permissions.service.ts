@@ -9,7 +9,7 @@ import {
   PermissionKey,
 } from 'src/common/models/permission.model';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
-import { Not } from 'typeorm';
+import { In, Not } from 'typeorm';
 import { CreatePermissionDTO, UpdatePermissionDTO } from './dtos';
 import { Permission } from './permissions.entity';
 
@@ -76,5 +76,13 @@ export class PermissionsService {
   async delete(id: number) {
     const permission = await this.selectById(id);
     return this.permissionsRepo.delete({ id: permission.id });
+  }
+
+  async selectByIds(ids: number[]) {
+    const permissions = await this.permissionsRepo.selectAll({ id: In(ids) });
+    if (permissions.length !== ids.length) {
+      throw new BadRequestException('permissions is invalid');
+    }
+    return permissions;
   }
 }

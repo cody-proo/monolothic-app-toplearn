@@ -6,5 +6,6 @@ import { GenericRepository } from 'src/common/repositories/generic.repository';
 @Module({
   providers: [PermissionsService, GenericRepository],
   controllers: [PermissionsController],
+  exports: [PermissionsService],
 })
 export class PermissionsModule {}
