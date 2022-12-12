@@ -14,8 +14,8 @@ import {
 import { CreatePermissionDTO, UpdatePermissionDTO } from './dtos';
 import { PermissionsService } from './permissions.service';
 
-@UseGuards(JwtAuthGuard)
-@Controller('permissions')
+// @UseGuards(JwtAuthGuard)
+@Controller({ version: '1', path: 'permissions' })
 export class PermissionsController {
   @Inject(PermissionsService)
   private readonly permissionsService: PermissionsService;

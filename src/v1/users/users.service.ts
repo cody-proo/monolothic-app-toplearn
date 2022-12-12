@@ -10,11 +10,16 @@ import { hashPassword } from '../auth/helper/hash-password.helper';
 import { ICreateUser } from './types';
 import { User, UserStatus } from './users.entity';
 import { UpdateUserDTO } from './dtos';
+import { RolesService } from '../roles/roles.service';
+import { Role } from '../roles/roles.entity';
 
 @Injectable()
 export class UsersService {
   @Inject(GenericRepository<User>)
   private readonly userRepo: GenericRepository<User>;
+
+  @Inject(RolesService)
+  private readonly rolesService: RolesService;
 
   async create(data: ICreateUser) {
     const user = await this.userRepo.select([
@@ -28,6 +33,11 @@ export class UsersService {
 
     if (user) {
       throw new BadRequestException('user exist before');
+    }
+    if (data.role) {
+      data.role = (await this.rolesService.selectById(
+        data.role as number,
+      )) as Role;
     }
     const passwordHashing = await hashPassword(data.password);
     return this.userRepo.create({

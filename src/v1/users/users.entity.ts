@@ -21,19 +21,19 @@ export class User extends CoreEntity {
   @Column('text', { name: 'password', nullable: false })
   password: string;
 
-  @Column('text', { name: 'image' })
+  @Column('text', { name: 'image', nullable: true })
   image?: string;
 
-  @Column('text', { name: 'bio' })
+  @Column('text', { name: 'bio', nullable: true })
   bio?: string;
 
-  @Column('varchar', { name: 'phone' })
+  @Column('varchar', { name: 'phone', nullable: true })
   phone?: string;
 
-  @Column('varchar', { name: 'first_name' })
+  @Column('varchar', { name: 'first_name', nullable: true })
   firstName?: string;
 
-  @Column('varchar', { name: 'last_name' })
+  @Column('varchar', { name: 'last_name', nullable: true })
   lastName?: string;
 
   @Column('varchar', { name: 'status', default: UserStatus.ACTIVE })

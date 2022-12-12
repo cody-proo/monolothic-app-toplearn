@@ -36,6 +36,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
         Blog,
         File,
       ],
+      synchronize: true,
     };
   }
 }

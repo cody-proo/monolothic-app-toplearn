@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
-import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { CoursesModule } from '../courses/courses.module';
+import { commentsRepositoryProvider } from '../providers.constant';
 
 @Module({
-  providers: [CommentsService, GenericRepository],
+  providers: [CommentsService, commentsRepositoryProvider],
   controllers: [CommentsController],
   imports: [CoursesModule],
 })

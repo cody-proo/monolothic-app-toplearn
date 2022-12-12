@@ -7,7 +7,7 @@ export class Category extends CoreEntity {
   @Column('varchar', { unique: true, name: 'title', nullable: false })
   title: string;
 
-  @Column('varchar', { unique: true, name: 'title', nullable: false })
+  @Column('varchar', { unique: true, name: 'slug', nullable: false })
   slug: string;
 
   @TreeParent()

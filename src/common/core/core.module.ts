@@ -1,3 +1,4 @@
+import { QueueModule } from './../modules/queue/queue.module';
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigsModule } from '../modules/configs/configs.module';
@@ -6,7 +7,7 @@ import { JwtAuthModule } from '../modules/jwt-auth/jwt-auth.module';
 import { TokenService } from '../services/token.service';
 
 @Module({
-  imports: [ConfigsModule, DatabaseModule, JwtAuthModule],
+  imports: [ConfigsModule, DatabaseModule, JwtAuthModule, QueueModule],
   providers: [TokenService, JwtService],
 })
 export class CoreModule {}

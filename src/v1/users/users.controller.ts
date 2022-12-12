@@ -13,12 +13,12 @@ import {
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
 import { UsersService } from './users.service';
 
-@Controller('users')
+@Controller({ version: '1', path: 'users' })
 export class UsersController {
   @Inject(UsersService)
   private readonly usersService: UsersService;
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   createUser(@Body() body: CreateUserDTO) {
     return this.usersService.create(body);

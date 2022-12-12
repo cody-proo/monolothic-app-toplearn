@@ -12,7 +12,7 @@ import {
 import { CreateRoleDTO, UpdateRoleDTO } from './dtos';
 import { RolesService } from './roles.service';
 
-@Controller('roles')
+@Controller({ version: '1', path: 'roles' })
 export class RolesController {
   @Inject(RolesService)
   private readonly rolesService: RolesService;

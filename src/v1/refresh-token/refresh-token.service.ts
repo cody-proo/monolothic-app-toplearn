@@ -1,3 +1,4 @@
+import { UsersService } from './../users/users.service';
 import {
   Inject,
   Injectable,
@@ -14,13 +15,13 @@ export class RefreshTokenService {
   @Inject(GenericRepository<RefreshToken>)
   private readonly refreshTokenRepo: GenericRepository<RefreshToken>;
 
-  @Inject(GenericRepository<User>)
-  private readonly userRepo: GenericRepository<User>;
+  @Inject(UsersService)
+  private readonly usersService: UsersService;
 
-  readonly expiresAtHour: 24;
+  readonly expiresAtHour = 24;
 
   async create(code: string, user: User) {
-    const existUser = await this.userRepo.select({ id: user.id });
+    const existUser = await this.usersService.selectById(user.id);
     if (!existUser) {
       throw new NotFoundException('user not found');
     }
@@ -32,7 +33,11 @@ export class RefreshTokenService {
     }
     const expiredAt = new Date();
     expiredAt.setHours(expiredAt.getHours() + this.expiresAtHour);
-    return this.refreshTokenRepo.create({ user: existUser, expiredAt, code });
+    return this.refreshTokenRepo.create({
+      user: existUser,
+      expiredAt: expiredAt.toLocaleString(),
+      code,
+    });
   }
 
   async select(code: string, user: User) {
