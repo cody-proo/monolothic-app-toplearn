@@ -6,5 +6,6 @@ import { banksRepositoryProvider } from '../providers.constant';
 @Module({
   providers: [BanksService, banksRepositoryProvider],
   controllers: [BanksController],
+  exports: [BanksService],
 })
 export class BanksModule {}

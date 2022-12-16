@@ -10,6 +10,7 @@ import { Like } from './likes/likes.entity';
 import { Permission } from './permissions/permissions.entity';
 import { RefreshToken } from './refresh-token/refresh-token.entity';
 import { Role } from './roles/roles.entity';
+import { Transaction } from './transactions/transactions.entity';
 import { User } from './users/users.entity';
 
 export const likesRepositoryProvider: Provider = {
@@ -65,4 +66,9 @@ export const blogsRepositoryProvider: Provider = {
 export const banksRepositoryProvider: Provider = {
   provide: GenericRepository,
   useFactory: () => new GenericRepository(Bank),
+};
+
+export const transactionsRepositoryProvider: Provider = {
+  provide: GenericRepository,
+  useFactory: () => new GenericRepository(Transaction),
 };
