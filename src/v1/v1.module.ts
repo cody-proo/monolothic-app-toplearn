@@ -11,6 +11,8 @@ import { CommentsModule } from './comments/comments.module';
 import { LikesModule } from './likes/likes.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { FilesModule } from './files/files.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { BanksModule } from './banks/banks.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { FilesModule } from './files/files.module';
     LikesModule,
     BlogsModule,
     FilesModule,
+    TransactionsModule,
+    BanksModule,
   ],
   providers: [],
   controllers: [],

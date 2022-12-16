@@ -8,7 +8,12 @@ const bootstrap = async () => {
   const configService = app.get(ConfigService);
   const appPort = configService.getOrThrow<number>('PORT') || 3000;
   app.enableCors({ origin: '*' });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidNonWhitelisted: true,
+      whitelist: true,
+    }),
+  );
   app.setGlobalPrefix('api');
   app.enableVersioning({
     type: VersioningType.URI,

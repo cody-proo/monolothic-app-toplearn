@@ -1,5 +1,6 @@
 import { Provider } from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
+import { Bank } from './banks/banks.entity';
 import { Blog } from './blogs/blogs.entity';
 import { Category } from './categories/categories.entity';
 import { Comment } from './comments/comments.entity';
@@ -59,4 +60,9 @@ export const categoriesRepositoryProvider: Provider = {
 export const blogsRepositoryProvider: Provider = {
   provide: GenericRepository,
   useFactory: () => new GenericRepository(Blog),
+};
+
+export const banksRepositoryProvider: Provider = {
+  provide: GenericRepository,
+  useFactory: () => new GenericRepository(Bank),
 };
