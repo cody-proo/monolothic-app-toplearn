@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { UsersModule } from '../users/users.module';
 import { RefreshToken } from './refresh-token.entity';
 import { RefreshTokenService } from './refresh-token.service';
 
 @Module({
-  imports: [UsersModule],
+  imports: [forwardRef(() => UsersModule)],
   providers: [
     RefreshTokenService,
     {

@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from 'src/common/modules/jwt-auth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -6,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
   ParseIntPipe,
   Delete,
   Get,
@@ -14,7 +12,6 @@ import {
 import { CreatePermissionDTO, UpdatePermissionDTO } from './dtos';
 import { PermissionsService } from './permissions.service';
 
-// @UseGuards(JwtAuthGuard)
 @Controller({ version: '1', path: 'permissions' })
 export class PermissionsController {
   @Inject(PermissionsService)

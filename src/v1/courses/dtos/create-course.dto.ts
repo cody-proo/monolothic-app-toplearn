@@ -1,12 +1,15 @@
 import {
+  IsArray,
   IsDecimal,
   IsEnum,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsString,
 } from 'class-validator';
 import { Category } from 'src/v1/categories/categories.entity';
-import { CourseLevel, CourseStatus } from '../courses.entity';
+import { User } from 'src/v1/users/users.entity';
+import { CourseLevel } from '../courses.entity';
 
 export class CreateCourseDTO {
   @IsNotEmpty()
@@ -22,13 +25,8 @@ export class CreateCourseDTO {
   image: number;
 
   @IsNotEmpty()
-  @IsDecimal(true)
+  @IsNumber()
   price: number;
-
-  @IsNotEmpty()
-  @IsString()
-  @IsEnum(CourseStatus)
-  status: CourseStatus;
 
   @IsNotEmpty()
   @IsString()
@@ -37,5 +35,10 @@ export class CreateCourseDTO {
 
   @IsNotEmpty()
   @IsInt({ each: true })
+  @IsArray()
   categories: (Category | number)[];
+
+  @IsNotEmpty()
+  @IsInt()
+  teacher: number | User;
 }

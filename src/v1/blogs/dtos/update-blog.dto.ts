@@ -1,5 +1,6 @@
 import { IsInt, IsOptional, IsString } from 'class-validator';
 import { Category } from 'src/v1/categories/categories.entity';
+import { File } from 'src/v1/files/files.entity';
 
 export class UpdateBlogDTO {
   @IsOptional()
@@ -11,8 +12,8 @@ export class UpdateBlogDTO {
   text?: string;
 
   @IsOptional()
-  @IsString()
-  image?: string;
+  @IsInt()
+  image?: number;
 
   @IsOptional()
   @IsInt({ each: true })

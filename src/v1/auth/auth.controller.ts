@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Inject,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/common/modules/jwt-auth/guards/jwt-auth.guard';
 import { User } from '../users/users.entity';
@@ -16,11 +24,13 @@ export class AuthController {
   private readonly authService: AuthService;
 
   @Post('signup')
+  @HttpCode(HttpStatus.CREATED)
   signup(@Body() body: SignupDTO) {
     return this.authService.signup(body);
   }
 
   @Post('signin')
+  @HttpCode(HttpStatus.OK)
   signin(@Body() body: LoginDTO) {
     return this.authService.login(body);
   }

@@ -12,5 +12,5 @@ export class CreateCategoryDTO {
 
   @IsOptional()
   @IsInt()
-  parentCategories?: Category | number;
+  parent?: Category | number;
 }

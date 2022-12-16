@@ -3,22 +3,30 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Inject,
 } from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { CategoriesService } from '../categories/categories.service';
 import { File } from '../files/files.entity';
 import { FilesService } from '../files/files.service';
 import { User } from '../users/users.entity';
+import { UsersService } from '../users/users.service';
 import { Course, CourseStatus } from './courses.entity';
 import { CreateCourseDTO, UpdateCourseDTO } from './dtos';
 
 @Injectable()
 export class CoursesService {
-  constructor(
-    private readonly genericRepo: GenericRepository<Course>,
-    private readonly categoriesService: CategoriesService,
-    private readonly filesService: FilesService,
-  ) {}
+  @Inject(GenericRepository)
+  private readonly genericRepo: GenericRepository<Course>;
+
+  @Inject(CategoriesService)
+  private readonly categoriesService: CategoriesService;
+
+  @Inject(FilesService)
+  private readonly filesService: FilesService;
+
+  @Inject(UsersService)
+  private readonly usersService: UsersService;
 
   async selectById(id: number) {
     const course = await this.genericRepo.selectById(id);
@@ -28,7 +36,7 @@ export class CoursesService {
     return course;
   }
 
-  async create(data: CreateCourseDTO, teacher: User) {
+  async create(data: CreateCourseDTO) {
     const titleExist = await this.genericRepo.select({ title: data.title });
     if (titleExist) {
       throw new BadRequestException('title exist before');
@@ -40,15 +48,16 @@ export class CoursesService {
       throw new BadRequestException('categories data is invalid');
     }
     const file = await this.filesService.selectById(data.image);
+    data.teacher = await this.usersService.selectById(data.teacher as number);
     return this.genericRepo.create({
       title: data.title,
       image: file,
       categories,
-      teacher,
+      teacher: data.teacher as User,
       level: data.level,
       price: data.price,
       description: data.description,
-      status: CourseStatus.STOP,
+      status: CourseStatus.NOT_START,
     });
   }
 
@@ -79,7 +88,6 @@ export class CoursesService {
       const file = await this.filesService.selectById(data.image as number);
       data.image = file as File;
     }
-
     return this.genericRepo.update({ id: course.id }, data as any);
   }
 

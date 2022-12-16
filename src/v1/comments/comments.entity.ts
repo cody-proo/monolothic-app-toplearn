@@ -2,6 +2,7 @@ import { CoreEntity } from 'src/common/core/core.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   Tree,
   TreeChildren,

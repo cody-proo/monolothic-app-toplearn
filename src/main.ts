@@ -7,7 +7,7 @@ const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const appPort = configService.getOrThrow<number>('PORT') || 3000;
-  app.enableCors();
+  app.enableCors({ origin: '*' });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api');
   app.enableVersioning({

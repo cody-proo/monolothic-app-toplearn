@@ -5,9 +5,11 @@ import { ConfigsModule } from '../modules/configs/configs.module';
 import { DatabaseModule } from '../modules/database/database.module';
 import { JwtAuthModule } from '../modules/jwt-auth/jwt-auth.module';
 import { TokenService } from '../services/token.service';
+import { CommentsEvents } from '../events/comments.event';
 
 @Module({
   imports: [ConfigsModule, DatabaseModule, JwtAuthModule, QueueModule],
-  providers: [TokenService, JwtService],
+  providers: [TokenService, JwtService, CommentsEvents],
+  exports: [CommentsEvents],
 })
 export class CoreModule {}

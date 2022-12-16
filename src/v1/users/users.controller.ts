@@ -18,7 +18,6 @@ export class UsersController {
   @Inject(UsersService)
   private readonly usersService: UsersService;
 
-  // @UseGuards(JwtAuthGuard)
   @Post()
   createUser(@Body() body: CreateUserDTO) {
     return this.usersService.create(body);

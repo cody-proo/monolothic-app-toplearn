@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -7,16 +8,22 @@ import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { Not } from 'typeorm';
 import { Category } from '../categories/categories.entity';
 import { CategoriesService } from '../categories/categories.service';
+import { File } from '../files/files.entity';
+import { FilesService } from '../files/files.service';
 import { User } from '../users/users.entity';
 import { Blog } from './blogs.entity';
 import { CreateBlogDTO, UpdateBlogDTO } from './dtos';
 
 @Injectable()
 export class BlogsService {
-  constructor(
-    private readonly genericRepo: GenericRepository<Blog>,
-    private readonly categoriesService: CategoriesService,
-  ) {}
+  @Inject(GenericRepository)
+  private readonly genericRepo: GenericRepository<Blog>;
+
+  @Inject(CategoriesService)
+  private readonly categoriesService: CategoriesService;
+
+  @Inject(FilesService)
+  private readonly filesService: FilesService;
 
   async create(data: CreateBlogDTO & { author: User }) {
     const blog = await this.genericRepo.select({
@@ -31,7 +38,8 @@ export class BlogsService {
     if (categories.length !== data.categories.length) {
       throw new BadRequestException('invalid categories');
     }
-    return this.genericRepo.create({ ...data, categories });
+    const image = await this.filesService.selectById(data.image as number);
+    return this.genericRepo.create({ ...data, categories, image });
   }
 
   async update(id: number, data: UpdateBlogDTO) {
@@ -42,7 +50,7 @@ export class BlogsService {
     const updatedData: Partial<{
       title: string;
       text: string;
-      image: string;
+      image: File;
       categories: Category[];
     }> = {};
     if (data.title) {
@@ -56,6 +64,10 @@ export class BlogsService {
       updatedData.title = data.title;
     }
     if (data.text) updatedData.text = data.text || blog.title;
+    if (data.image)
+      updatedData.image = await this.filesService.selectById(
+        data.image as number,
+      );
     return this.genericRepo.update({ id }, updatedData);
   }
 

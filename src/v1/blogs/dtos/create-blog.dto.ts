@@ -1,5 +1,6 @@
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { Category } from 'src/v1/categories/categories.entity';
+import { File } from 'src/v1/files/files.entity';
 
 export class CreateBlogDTO {
   @IsNotEmpty()
@@ -11,8 +12,8 @@ export class CreateBlogDTO {
   text: string;
 
   @IsNotEmpty()
-  @IsString()
-  image: string;
+  @IsInt()
+  image: number | File;
 
   @IsNotEmpty()
   @IsInt({ each: true })

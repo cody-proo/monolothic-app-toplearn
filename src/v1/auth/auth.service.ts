@@ -58,9 +58,9 @@ export class AuthService {
       user,
     );
     const token = await this.tokenService.generateToken({
-      id: refreshToken.user.id,
+      id: user.id,
     });
-    const newExpiresAt = { ...refreshToken.expiredAt };
+    const newExpiresAt = new Date(refreshToken.expiredAt);
     newExpiresAt.setHours(
       newExpiresAt.getHours() + this.refreshTokenService.expiresAtHour,
     );

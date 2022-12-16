@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { CoreEntity } from 'src/common/core/core.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { File } from '../files/files.entity';
 import { Role } from '../roles/roles.entity';
 
 export enum UserStatus {
@@ -21,8 +22,8 @@ export class User extends CoreEntity {
   @Column('text', { name: 'password', nullable: false })
   password: string;
 
-  @Column('text', { name: 'image', nullable: true })
-  image?: string;
+  @ManyToOne(() => File, (file) => file.id)
+  image?: File;
 
   @Column('text', { name: 'bio', nullable: true })
   bio?: string;

@@ -16,7 +16,7 @@ import { User } from '../users/users.entity';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDTO, UpdateBlogDTO } from './dtos';
 
-@Controller('blogs')
+@Controller({ path: 'blogs', version: '1' })
 export class BlogsController {
   @Inject(BlogsService)
   private readonly blogsService: BlogsService;

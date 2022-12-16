@@ -13,7 +13,7 @@ import {
 import { LikesService } from './likes.service';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
-@Controller('likes')
+@Controller({ version: '1', path: 'likes' })
 export class LikesController {
   @Inject(LikesService)
   likesService: LikesService;

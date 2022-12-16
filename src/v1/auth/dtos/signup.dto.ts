@@ -5,7 +5,9 @@ import {
   IsOptional,
   MinLength,
   IsMobilePhone,
+  IsInt,
 } from 'class-validator';
+import { File } from 'src/v1/files/files.entity';
 
 export class SignupDTO {
   @IsNotEmpty()
@@ -28,8 +30,8 @@ export class SignupDTO {
   bio?: string;
 
   @IsOptional()
-  @IsString()
-  image?: string;
+  @IsInt()
+  image?: number | File;
 
   @IsOptional()
   @IsString()

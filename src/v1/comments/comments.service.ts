@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
-import { Course } from '../courses/courses.entity';
 import { CoursesService } from '../courses/courses.service';
 import { User } from '../users/users.entity';
 import { Comment } from './comments.entity';

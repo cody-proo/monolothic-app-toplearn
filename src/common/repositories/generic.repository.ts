@@ -6,6 +6,11 @@ import {
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { CoreEntity } from '../core/core.entity';
+import {
+  FindAllKey,
+  FindOneKey,
+  GetRelation,
+} from '../decorators/relation.decorator';
 import { IRepository } from '../interfaces/repository.interface';
 
 export class GenericRepository<T extends CoreEntity> implements IRepository<T> {
@@ -28,9 +33,17 @@ export class GenericRepository<T extends CoreEntity> implements IRepository<T> {
     return this.model.findOne({ where }) as Promise<T>;
   }
   selectAll(where: FindOptionsWhere<T> = {}): Promise<T[]> {
-    return this.model.find({ where }) as Promise<T[]>;
+    const relation = GetRelation(this.model);
+    return this.model.find({
+      where,
+      relations: relation[FindAllKey] || {},
+    }) as Promise<T[]>;
   }
   selectById(id: number): Promise<T> {
-    return this.model.findOneBy({ id }) as Promise<T>;
+    const relation = GetRelation(this.model);
+    return this.model.findOne({
+      where: { id },
+      relations: relation[FindOneKey] || {},
+    }) as Promise<T>;
   }
 }

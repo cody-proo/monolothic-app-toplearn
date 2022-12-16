@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TreeRepository } from 'typeorm';
 import { categoriesRepositoryProvider } from '../providers.constant';
 import { CategoriesController } from './categories.controller';
 import { CategoriesRepository } from './categories.repository';
@@ -10,6 +11,7 @@ import { CategoriesService } from './categories.service';
     CategoriesService,
     CategoriesRepository,
     categoriesRepositoryProvider,
+    TreeRepository,
   ],
   exports: [CategoriesService],
 })

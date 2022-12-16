@@ -20,18 +20,18 @@ export class CategoriesService {
     if (titleOrSlugTakeBefore) {
       throw new BadRequestException('title or slug is take before');
     }
-    if (data.parentCategories) {
+    if (data.parent) {
       const parentCategory = await this.genericRepo.selectById(
-        data.parentCategories as number,
+        data.parent as number,
       );
       if (!parentCategory) {
         throw new NotFoundException('parent category is not exist');
       }
-      data.parentCategories = parentCategory;
+      data.parent = parentCategory;
     }
     return this.genericRepo.create({
       ...data,
-      parentCategories: data?.parentCategories as Category,
+      parent: data?.parent as Category,
     });
   }
 
@@ -40,31 +40,64 @@ export class CategoriesService {
     if (!isCategoryExist) {
       throw new NotFoundException('category is not exist');
     }
+    const isParentCategory = await this.genericRepo.select({ parent: { id } });
+    if (isParentCategory) {
+      throw new BadRequestException('You cant delete category that is parent');
+    }
     return this.genericRepo.delete({ id });
   }
 
   async update(id: number, data: UpdateCategoryDTO) {
-    const updatedData: Partial<{
-      title: string;
-      slug: string;
-      parentCategory: Category;
-    }> = {};
     const isCategoryExist = await this.genericRepo.selectById(id);
     if (!isCategoryExist) {
       throw new NotFoundException('category is not exist');
     }
-    const contextExist = await this.genericRepo.select([
-      { title: data.title, id: Not(id) },
-      { slug: data.slug, id: Not(id) },
-    ]);
-    if (contextExist) {
-      throw new BadRequestException('title or slug is exist before');
+    if (data.title) {
+      const titleExist = await this.genericRepo.select({
+        title: data.title,
+        id: Not(id),
+      });
+
+      if (!!titleExist) {
+        throw new BadRequestException('title is exist before');
+      }
     }
-    return this.genericRepo.update({ id }, updatedData);
+    if (data.slug) {
+      const slugExist = await this.genericRepo.select({
+        slug: data.slug,
+        id: Not(id),
+      });
+
+      if (!!slugExist) {
+        throw new BadRequestException('slug is exist before');
+      }
+    }
+    if (data.parent) {
+      data.parent = await this.genericRepo.select({
+        parent: {
+          id: data.parent as number,
+        },
+      });
+
+      if (!data.parent) {
+        throw new NotFoundException('parent category is not found');
+      }
+    }
+    return this.genericRepo.update({ id }, data as any);
   }
 
-  selectAll() {
+  selectAllSimpleFormat() {
     return this.genericRepo.selectAll();
+  }
+
+  selectAllByTreeFormat() {
+    return this.genericRepo.selectTrees();
+  }
+
+  selectAll(type: 'simple' | 'tree') {
+    return type === 'simple'
+      ? this.selectAllSimpleFormat()
+      : this.selectAllByTreeFormat();
   }
 
   async selectById(id: number) {

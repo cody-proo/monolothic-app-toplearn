@@ -16,14 +16,16 @@ import { User } from '../users/users.entity';
 import { CoursesService } from './courses.service';
 import { CreateCourseDTO, UpdateCourseDTO } from './dtos';
 
-@Controller('courses')
+@Controller({ version: '1', path: 'courses' })
 export class CoursesController {
   @Inject(CoursesService)
   coursesService: CoursesService;
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  createCourse(@Body() body: CreateCourseDTO, @CurrentUser() user: User) {}
+  createCourse(@Body() body: CreateCourseDTO) {
+    return this.coursesService.create(body);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')

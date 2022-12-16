@@ -10,9 +10,12 @@ export class Category extends CoreEntity {
   @Column('varchar', { unique: true, name: 'slug', nullable: false })
   slug: string;
 
+  //5022 2913 0570 2068
+  // 761
+
   @TreeParent()
-  parentCategories: Category;
+  parent: Category;
 
   @TreeChildren()
-  subCategories: Category;
+  subcategory: Category;
 }

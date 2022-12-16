@@ -16,10 +16,10 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { User } from '../users/users.entity';
 import { CreateCommentDTO, UpdateCommentDTO } from './dtos';
 
-@Controller('comments')
+@Controller({ path: 'comments', version: '1' })
 export class CommentsController {
   @Inject(CommentsService)
-  commentsService: CommentsService;
+  private readonly commentsService: CommentsService;
 
   @Get()
   getAllComments() {

@@ -15,10 +15,10 @@ export class LikesService {
     private readonly coursesService: CoursesService,
   ) {}
 
-  async create(user: number | User, course: number) {
+  async create(user: User, course: number) {
     const courseEntity = await this.coursesService.selectById(course);
     const like = await this.genericRepo.select({
-      user: { id: user as number },
+      user: { id: user.id },
       course: { id: courseEntity.id },
     });
     if (like) {

@@ -35,7 +35,7 @@ export class RefreshTokenService {
     expiredAt.setHours(expiredAt.getHours() + this.expiresAtHour);
     return this.refreshTokenRepo.create({
       user: existUser,
-      expiredAt: expiredAt.toLocaleString(),
+      expiredAt,
       code,
     });
   }

@@ -8,18 +8,17 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/common/modules/jwt-auth/guards/jwt-auth.guard';
-import { User } from '../users/users.entity';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './dtos';
 
-@Controller('categories')
+@Controller({ version: '1', path: 'categories' })
 export class CategoriesController {
   @Inject(CategoriesService)
-  categoriesService: CategoriesService;
+  private readonly categoriesService: CategoriesService;
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -43,8 +42,8 @@ export class CategoriesController {
   }
 
   @Get()
-  selectAllCategories() {
-    return this.categoriesService.selectAll();
+  selectAllCategories(@Query('format') format: 'simple' | 'tree') {
+    return this.categoriesService.selectAll(format);
   }
 
   @Get(':id')

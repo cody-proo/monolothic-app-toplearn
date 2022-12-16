@@ -1,11 +1,13 @@
 import {
   IsEmail,
   IsEnum,
+  IsInt,
   IsMobilePhone,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { File } from 'src/v1/files/files.entity';
 import { UserStatus } from '../users.entity';
 
 export class UpdateUserDTO {
@@ -25,8 +27,8 @@ export class UpdateUserDTO {
   password?: string;
 
   @IsOptional()
-  @IsString()
-  image?: string;
+  @IsInt()
+  image?: number | File;
 
   @IsOptional()
   @IsString()

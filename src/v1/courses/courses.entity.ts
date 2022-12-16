@@ -1,8 +1,14 @@
 import { CoreEntity } from 'src/common/core/core.entity';
 import {
+  FindAllKey,
+  FindOneKey,
+  Relation,
+} from 'src/common/decorators/relation.decorator';
+import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -15,6 +21,7 @@ import { Like } from '../likes/likes.entity';
 import { User } from '../users/users.entity';
 
 export enum CourseStatus {
+  NOT_START = 'NOT_START',
   ACTIVE = 'ACTIVE',
   FINISH = 'FINISH',
   STOP = 'STOP',
@@ -26,6 +33,16 @@ export enum CourseLevel {
   ADVANCE = 'ADVANCE',
 }
 
+@Relation({
+  [FindAllKey]: { image: true },
+  [FindOneKey]: {
+    image: true,
+    teacher: true,
+    categories: true,
+    comments: true,
+    likes: true,
+  },
+})
 @Entity({ name: '_courses' })
 export class Course extends CoreEntity {
   @Column('varchar', { nullable: false, unique: true, name: 'title' })
@@ -41,7 +58,11 @@ export class Course extends CoreEntity {
   @Column('decimal', { name: 'price', nullable: false })
   price: number;
 
-  @Column('varchar', { name: 'status', nullable: false })
+  @Column('varchar', {
+    name: 'status',
+    nullable: true,
+    default: CourseStatus.NOT_START,
+  })
   status: CourseStatus;
 
   @Column('varchar', { name: 'level', nullable: false })
@@ -51,12 +72,22 @@ export class Course extends CoreEntity {
   teacher: User;
 
   @ManyToMany(() => Category, (categories) => categories.id)
-  @JoinColumn()
+  @JoinTable({
+    name: '_category_course',
+    joinColumn: {
+      name: 'course',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'category',
+      referencedColumnName: 'id',
+    },
+  })
   categories: Category[];
 
-  @OneToMany(() => Comment, (comment) => comment.id)
+  @OneToMany(() => Comment, (comment) => comment.course)
   comments: Comment[];
 
-  @OneToMany(() => Like, (like) => like.id)
+  @OneToMany(() => Like, (like) => like.course)
   likes: Like[];
 }

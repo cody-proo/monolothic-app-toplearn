@@ -1,4 +1,3 @@
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import {
   BadRequestException,
   Inject,
@@ -12,6 +11,9 @@ import { User, UserStatus } from './users.entity';
 import { UpdateUserDTO } from './dtos';
 import { RolesService } from '../roles/roles.service';
 import { Role } from '../roles/roles.entity';
+import { FilesService } from '../files/files.service';
+import { File } from '../files/files.entity';
+import { Not } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +22,9 @@ export class UsersService {
 
   @Inject(RolesService)
   private readonly rolesService: RolesService;
+
+  @Inject(FilesService)
+  private readonly filesService: FilesService;
 
   async create(data: ICreateUser) {
     const user = await this.userRepo.select([
@@ -39,10 +44,14 @@ export class UsersService {
         data.role as number,
       )) as Role;
     }
+    if (data.image) {
+      data.image = await this.filesService.selectById(data.image as number);
+    }
     const passwordHashing = await hashPassword(data.password);
     return this.userRepo.create({
       ...data,
       password: passwordHashing,
+      image: data.image as File,
     });
   }
 
@@ -62,18 +71,28 @@ export class UsersService {
       data.username &&
       (await this.userRepo.select({
         username: data.username,
+        id: Not(id),
       }))
     ) {
       throw new BadRequestException('user exist before by username');
     }
 
-    if (data.email && (await this.userRepo.select({ email: data.email }))) {
+    if (
+      data.email &&
+      (await this.userRepo.select({ email: data.email, id: Not(id) }))
+    ) {
       throw new BadRequestException('user exist before by email');
+    }
+    if (data.image) {
+      data.image = await this.filesService.selectById(data.image as number);
+      if (!data.image) {
+        throw new NotFoundException('image not found');
+      }
     }
     const user = await this.selectById(id);
     return this.userRepo.update(
       { id: user.id, status: UserStatus.ACTIVE },
-      data,
+      data as any,
     );
   }
 
