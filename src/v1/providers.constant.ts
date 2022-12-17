@@ -8,6 +8,7 @@ import { Course } from './courses/courses.entity';
 import { Discount } from './discounts/discounts.entity';
 import { File } from './files/files.entity';
 import { Like } from './likes/likes.entity';
+import { Order } from './orders/orders.entity';
 import { Permission } from './permissions/permissions.entity';
 import { RefreshToken } from './refresh-token/refresh-token.entity';
 import { Role } from './roles/roles.entity';
@@ -77,4 +78,9 @@ export const transactionsRepositoryProvider: Provider = {
 export const discountsRepositoryProvider: Provider = {
   provide: GenericRepository,
   useFactory: () => new GenericRepository(Discount),
+};
+
+export const ordersRepositoryProvider: Provider = {
+  provide: GenericRepository,
+  useFactory: () => new GenericRepository(Order),
 };

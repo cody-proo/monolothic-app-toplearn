@@ -2,6 +2,7 @@ import { Exclude } from 'class-transformer';
 import { CoreEntity } from 'src/common/core/core.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { File } from '../files/files.entity';
+import { Order } from '../orders/orders.entity';
 import { Role } from '../roles/roles.entity';
 
 export enum UserStatus {
@@ -45,4 +46,7 @@ export class User extends CoreEntity {
 
   @OneToMany(() => Role, (role) => role.id)
   roles: Role;
+
+  @OneToMany(() => Order, (order) => order.customer, { nullable: true })
+  orders?: Order[];
 }
