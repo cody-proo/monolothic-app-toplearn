@@ -13,6 +13,8 @@ import { BlogsModule } from './blogs/blogs.module';
 import { FilesModule } from './files/files.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { BanksModule } from './banks/banks.module';
+import { OrdersModule } from './orders/orders.module';
+import { DiscountsModule } from './discounts/discounts.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { BanksModule } from './banks/banks.module';
     FilesModule,
     TransactionsModule,
     BanksModule,
+    OrdersModule,
+    DiscountsModule,
   ],
   providers: [],
   controllers: [],

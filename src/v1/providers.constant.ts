@@ -5,6 +5,7 @@ import { Blog } from './blogs/blogs.entity';
 import { Category } from './categories/categories.entity';
 import { Comment } from './comments/comments.entity';
 import { Course } from './courses/courses.entity';
+import { Discount } from './discounts/discounts.entity';
 import { File } from './files/files.entity';
 import { Like } from './likes/likes.entity';
 import { Permission } from './permissions/permissions.entity';
@@ -71,4 +72,9 @@ export const banksRepositoryProvider: Provider = {
 export const transactionsRepositoryProvider: Provider = {
   provide: GenericRepository,
   useFactory: () => new GenericRepository(Transaction),
+};
+
+export const discountsRepositoryProvider: Provider = {
+  provide: GenericRepository,
+  useFactory: () => new GenericRepository(Discount),
 };

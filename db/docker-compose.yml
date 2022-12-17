@@ -9,7 +9,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=toplearn
-      - POSTGRES_PASS=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
       - toplearn_network
   redis:

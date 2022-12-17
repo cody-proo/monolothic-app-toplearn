@@ -66,6 +66,14 @@ export class UsersService {
     return user;
   }
 
+  async updateCredit(id: number, amount: number) {
+    const user = await this.selectById(id);
+    return this.userRepo.update(
+      { id: user.id },
+      { credit: user.credit + amount },
+    );
+  }
+
   async update(id: number, data: UpdateUserDTO) {
     if (
       data.username &&

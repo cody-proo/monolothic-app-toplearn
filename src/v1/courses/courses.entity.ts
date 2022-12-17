@@ -16,6 +16,7 @@ import {
 } from 'typeorm';
 import { Category } from '../categories/categories.entity';
 import { Comment } from '../comments/comments.entity';
+import { Discount } from '../discounts/discounts.entity';
 import { File } from '../files/files.entity';
 import { Like } from '../likes/likes.entity';
 import { User } from '../users/users.entity';
@@ -90,4 +91,7 @@ export class Course extends CoreEntity {
 
   @OneToMany(() => Like, (like) => like.course)
   likes: Like[];
+
+  @OneToOne(() => Discount, (discount) => discount.course, { nullable: false })
+  discount?: Discount;
 }

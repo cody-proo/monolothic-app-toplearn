@@ -65,7 +65,7 @@ export class TransactionsService {
   ) {
     const transaction = await this.selectSingleTransaction(id);
     if (body.status === TransactionStatus.CONFIRM) {
-      return this.genericRepository.update(
+      const confirmedTransaction = await this.genericRepository.update(
         { id: transaction.id },
         {
           status: TransactionStatus.CONFIRM,
@@ -73,6 +73,11 @@ export class TransactionsService {
           registerAt: new Date(),
         },
       );
+      await this.usersService.updateCredit(
+        transaction.user.id,
+        transaction.amount,
+      );
+      return confirmedTransaction;
     }
     return this.genericRepository.update(
       { id: transaction.id },

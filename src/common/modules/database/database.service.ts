@@ -14,6 +14,8 @@ import { Blog } from 'src/v1/blogs/blogs.entity';
 import { File } from 'src/v1/files/files.entity';
 import { Transaction } from 'src/v1/transactions/transactions.entity';
 import { Bank } from 'src/v1/banks/banks.entity';
+import { Discount } from 'src/v1/discounts/discounts.entity';
+import { Order } from 'src/v1/orders/orders.entity';
 
 export class DatabaseService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -39,6 +41,8 @@ export class DatabaseService implements TypeOrmOptionsFactory {
         File,
         Bank,
         Transaction,
+        Discount,
+        Order,
       ],
       synchronize: true,
     };
