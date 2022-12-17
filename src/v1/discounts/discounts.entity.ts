@@ -1,5 +1,5 @@
 import { CoreEntity } from 'src/common/core/core.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Course } from '../courses/courses.entity';
 
 export enum DiscountType {

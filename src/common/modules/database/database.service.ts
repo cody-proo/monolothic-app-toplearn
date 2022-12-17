@@ -16,6 +16,7 @@ import { Transaction } from 'src/v1/transactions/transactions.entity';
 import { Bank } from 'src/v1/banks/banks.entity';
 import { Discount } from 'src/v1/discounts/discounts.entity';
 import { Order } from 'src/v1/orders/orders.entity';
+import { Notification } from 'src/common/notifications/notifications.entity';
 
 export class DatabaseService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -43,6 +44,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
         Transaction,
         Discount,
         Order,
+        Notification,
       ],
       synchronize: true,
     };

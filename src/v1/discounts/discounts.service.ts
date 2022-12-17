@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { GenericRepository } from 'src/common/repositories/generic.repository';
 import { CoursesService } from '../courses/courses.service';
-import { Discount } from './discounts.entity';
+import { Discount, DiscountType } from './discounts.entity';
 import { CreateDiscountDTO, UpdateDiscountDTO } from './dtos';
 
 @Injectable()
@@ -51,6 +51,23 @@ export class DiscountsService {
   async selectById(id: number) {
     const discount = await this.genericRepo.selectById(id);
     if (!discount) {
+      throw new NotFoundException('discount is not found');
+    }
+    return discount;
+  }
+
+  async validateDiscount(id: number, courseId?: number) {
+    const discount = await this.selectById(id);
+    if (discount.quantity === 0) {
+      throw new BadRequestException('discount has no capacity');
+    }
+    if (new Date(discount.expiredAt).getTime() < new Date().getTime()) {
+      throw new BadRequestException('discount is expired ...');
+    }
+    if (
+      discount.course.id !== courseId &&
+      discount.type === DiscountType.Single
+    ) {
       throw new NotFoundException('discount is not found');
     }
     return discount;

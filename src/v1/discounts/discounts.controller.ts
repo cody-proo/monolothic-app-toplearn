@@ -12,7 +12,7 @@ import {
 import { DiscountsService } from './discounts.service';
 import { CreateDiscountDTO, UpdateDiscountDTO } from './dtos';
 
-@Controller('discounts')
+@Controller({ path: 'discounts', version: '1' })
 export class DiscountsController {
   @Inject(DiscountsService)
   private readonly discountsService: DiscountsService;

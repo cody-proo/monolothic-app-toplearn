@@ -8,5 +8,6 @@ import { DiscountsService } from './discounts.service';
   controllers: [DiscountsController],
   providers: [DiscountsService, discountsRepositoryProvider],
   imports: [CoursesModule],
+  exports: [DiscountsService],
 })
 export class DiscountsModule {}
