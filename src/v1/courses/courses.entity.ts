@@ -95,11 +95,14 @@ export class Course extends CoreEntity {
   @OneToOne(() => Discount, (discount) => discount.course, { nullable: false })
   discount?: Discount;
 
-  calculatePrice() {
+  calculatePrice(extraDiscountPercent: number = 0) {
     if (this.discount) {
-      return this.price - (this.discount.percent * this.price) / 100;
+      return (
+        this.price -
+        ((this.discount.percent + extraDiscountPercent) * this.price) / 100
+      );
     }
 
-    return this.price;
+    return this.price - (extraDiscountPercent * this.price) / 100;
   }
 }
