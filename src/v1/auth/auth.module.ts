@@ -6,9 +6,14 @@ import { TokenService } from 'src/common/services/token.service';
 import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { NotificationsModule } from 'src/common/notifications/notifications.module';
 
 @Module({
-  imports: [RefreshTokenModule, forwardRef(() => UsersModule)],
+  imports: [
+    RefreshTokenModule,
+    forwardRef(() => UsersModule),
+    NotificationsModule,
+  ],
   controllers: [AuthController],
   providers: [AuthService, GenericRepository, TokenService, JwtService],
 })

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { NotificationsModule } from 'src/common/notifications/notifications.module';
 import { TreeRepository } from 'typeorm';
 import { categoriesRepositoryProvider } from '../providers.constant';
 import { CategoriesController } from './categories.controller';
@@ -14,5 +15,6 @@ import { CategoriesService } from './categories.service';
     TreeRepository,
   ],
   exports: [CategoriesService],
+  imports: [NotificationsModule]
 })
 export class CategoriesModule {}

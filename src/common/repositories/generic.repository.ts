@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import {
   DeepPartial,
   DeleteResult,
@@ -13,6 +14,7 @@ import {
   GetRelation,
 } from '../decorators/relation.decorator';
 import { IRepository } from '../interfaces/repository.interface';
+import { NotificationsService } from '../notifications/notifications.service';
 
 export class GenericRepository<T extends CoreEntity> implements IRepository<T> {
   constructor(

@@ -11,4 +11,8 @@ export class NotificationsService {
       type: data.type,
     });
   }
+
+  selectAll() {
+    return Notification.find({});
+  }
 }

@@ -7,6 +7,7 @@ import { JwtAuthModule } from '../modules/jwt-auth/jwt-auth.module';
 import { TokenService } from '../services/token.service';
 import { CommentsEvents } from '../events/comments.event';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Module({
   imports: [

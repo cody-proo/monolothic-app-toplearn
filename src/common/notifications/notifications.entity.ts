@@ -9,6 +9,17 @@ export class Notification extends CoreEntity {
   @Column({ name: 'type', type: 'varchar', nullable: false })
   type: string;
 
-  @Column({ name: 'parameters', type: 'text', nullable: false })
+  @Column({
+    name: 'parameters',
+    type: 'text',
+    nullable: false,
+
+    transformer: {
+      from: (value) => JSON.parse(value),
+      to(value) {
+        return JSON.stringify(value);
+      },
+    },
+  })
   parameters: string;
 }
