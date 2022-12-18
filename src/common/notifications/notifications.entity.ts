@@ -17,7 +17,7 @@ export class Notification extends CoreEntity {
     transformer: {
       from: (value) => JSON.parse(value),
       to(value) {
-        return JSON.stringify(value);
+        return value;
       },
     },
   })
