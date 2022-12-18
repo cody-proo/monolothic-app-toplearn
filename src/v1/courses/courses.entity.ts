@@ -20,6 +20,7 @@ import { Discount } from '../discounts/discounts.entity';
 import { File } from '../files/files.entity';
 import { Like } from '../likes/likes.entity';
 import { User } from '../users/users.entity';
+import { Video } from '../videos/videos.entity';
 
 export enum CourseStatus {
   NOT_START = 'NOT_START',
@@ -94,6 +95,9 @@ export class Course extends CoreEntity {
 
   @OneToOne(() => Discount, (discount) => discount.course, { nullable: false })
   discount?: Discount;
+
+  @OneToMany(() => Video, (video) => video.course, { nullable: true })
+  videos?: Video[];
 
   calculatePrice(extraDiscountPercent: number = 0) {
     if (this.discount) {

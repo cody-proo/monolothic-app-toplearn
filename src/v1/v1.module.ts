@@ -15,6 +15,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { BanksModule } from './banks/banks.module';
 import { OrdersModule } from './orders/orders.module';
 import { DiscountsModule } from './discounts/discounts.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DiscountsModule } from './discounts/discounts.module';
     BanksModule,
     OrdersModule,
     DiscountsModule,
+    VideosModule,
   ],
   providers: [],
   controllers: [],
