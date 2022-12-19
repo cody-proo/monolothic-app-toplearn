@@ -1,9 +1,10 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
-import { createWriteStream, unlinkSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, unlinkSync } from 'fs';
 import { Readable } from 'stream';
 import * as ffpmeg from 'fluent-ffmpeg';
 import * as ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import { extname } from 'path';
 ffpmeg.setFfmpegPath(ffmpegInstaller.path);
 
 @Processor('file')
@@ -30,8 +31,7 @@ export class FileProcessor {
   @Process({ name: 'video' })
   async createVideo(
     process: Job<{
-      screenShotName: string;
-      videoName: string;
+      dirname: string;
       file: Express.Multer.File;
     }>,
   ) {
@@ -39,27 +39,20 @@ export class FileProcessor {
     const readStream = new Readable();
     readStream.push(buffer);
     readStream.push(null);
-    const writeStream = createWriteStream('./x.mp4');
-    readStream.pipe(writeStream);
-    try {
-      const xbg = createWriteStream('x.png');
-      await ffpmeg()
-        .input(readStream)
-        .screenshot({
-          count: 1,
-          folder: './xxxx',
-          timemarks: ['1'],
-        })
-        .output(xbg)
-        .on('end', () => {
-          console.log('done');
-        })
-        .on('error', (e) => {
-          console.log('error', e);
-        })
-        .run();
-    } catch (error) {
-      console.log('error', error);
+    const videoDist = `./public/${process.data.dirname}`;
+    const videoFile = `${videoDist}/video${extname(
+      process.data.file.originalname,
+    )}`;
+    if (!existsSync(videoDist)) {
+      mkdirSync(videoDist, { recursive: true });
     }
+    const writeStream = createWriteStream(videoFile);
+    readStream.pipe(writeStream).on('finish', () => {
+      ffpmeg(videoFile).screenshot({
+        count: 1,
+        filename: `${videoDist}/screenshot.jpg`,
+        timemarks: [0],
+      });
+    });
   }
 }
