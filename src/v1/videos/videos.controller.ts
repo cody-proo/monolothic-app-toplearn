@@ -1,8 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
+  Param,
+  ParseIntPipe,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -26,11 +29,22 @@ export class VideosController {
   }
 
   @Get()
-  getAllVideos() {}
+  getAllVideos() {
+    return this.videosService.getAll();
+  }
+
+  @Delete(':id')
+  deleteVideo(@Param('id', ParseIntPipe) id: number) {
+    return this.videosService.deleteById(id);
+  }
 
   @Get('course/')
-  groupVideosBasedOnCourse() {}
+  groupVideosBasedOnCourse() {
+    return this.videosService.groupByCourse();
+  }
 
   @Get('course/:id')
-  getAllVideosBasedOnCourse() {}
+  getAllVideosBasedOnCourse(@Param('id', ParseIntPipe) id: number) {
+    return this.videosService.groupByCourseAndFilterCourse(id);
+  }
 }

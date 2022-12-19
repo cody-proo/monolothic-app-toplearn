@@ -10,14 +10,8 @@ export class Video extends CoreEntity {
   @Column({ name: 'description', type: 'text', nullable: false })
   description: string;
 
-  @Column({ name: 'screenshot', type: 'text', nullable: false })
-  screenshot: string;
-
   @Column({ name: 'src', type: 'text', nullable: false })
   src: string;
-
-  @Column({ name: 'order', type: 'int', nullable: false })
-  order: number;
 
   @ManyToOne(() => Course, (course) => course.id)
   course: Course;

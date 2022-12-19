@@ -14,9 +14,5 @@ export class CreateVideoDTO {
 
   @IsNotEmpty()
   // @IsInt()
-  order: number;
-
-  @IsNotEmpty()
-  // @IsInt()
   course: Course | number;
 }

@@ -34,7 +34,6 @@ export enum CourseLevel {
   INTERMEDIATE = 'INTERMEDIATE',
   ADVANCE = 'ADVANCE',
 }
-
 @Relation({
   [FindAllKey]: { image: true },
   [FindOneKey]: {
