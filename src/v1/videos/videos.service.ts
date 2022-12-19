@@ -56,7 +56,11 @@ export class VideosService {
   }
 
   groupByCourse() {
-    return Video.createQueryBuilder('_video').getMany();
+    return Video.createQueryBuilder('_video')
+      .innerJoinAndSelect('_video.course', '_course')
+      .groupBy('_video.id')
+      .addGroupBy('_course.id')
+      .getMany();
   }
 
   async groupByCourseAndFilterCourse(id: number) {

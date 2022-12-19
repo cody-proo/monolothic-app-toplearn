@@ -21,7 +21,7 @@ export class CoursesController {
   @Inject(CoursesService)
   coursesService: CoursesService;
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   createCourse(@Body() body: CreateCourseDTO) {
     return this.coursesService.create(body);

@@ -16,6 +16,7 @@ export class VideoProcessor {
       file: Express.Multer.File;
     }>,
   ) {
+    console.log('ghio')
     const buffer = new Uint8Array((process.data.file.buffer as any).data);
     const readStream = new Readable();
     readStream.push(buffer);

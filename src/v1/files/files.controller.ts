@@ -16,7 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateFileDTO } from './dtos';
 import { FilesService } from './files.service';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller({ path: 'files', version: '1' })
 export class FilesController {
   @Inject(FilesService)
