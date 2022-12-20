@@ -37,14 +37,4 @@ export class VideosController {
   deleteVideo(@Param('id', ParseIntPipe) id: number) {
     return this.videosService.deleteById(id);
   }
-
-  @Get('course/')
-  groupVideosBasedOnCourse() {
-    return this.videosService.groupByCourse();
-  }
-
-  @Get('course/:id')
-  getAllVideosBasedOnCourse(@Param('id', ParseIntPipe) id: number) {
-    return this.videosService.groupByCourseAndFilterCourse(id);
-  }
 }

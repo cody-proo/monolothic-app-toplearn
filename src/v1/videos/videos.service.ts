@@ -54,19 +54,6 @@ export class VideosService {
     this.videoProcess.add('delete', { dest: video.src });
     return Video.delete(video.id);
   }
-
-  groupByCourse() {
-    return Video.createQueryBuilder('_video')
-      .innerJoinAndSelect('_video.course', '_course')
-      .groupBy('_video.id')
-      .addGroupBy('_course.id')
-      .getMany();
-  }
-
-  async groupByCourseAndFilterCourse(id: number) {
-    const course = await this.coursesService.selectById(id);
-    return Video.createQueryBuilder('_video').getMany();
-  }
 }
 
 
